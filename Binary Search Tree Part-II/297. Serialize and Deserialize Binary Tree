@@ -1,0 +1,62 @@
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    TreeNode* constructbt(vector<int>&vs,int& ind){
+        if(ind>=vs.size())
+            return NULL;
+        TreeNode* root;
+        if(vs[ind]>=-1000&&vs[ind]<=1000)
+            root = new TreeNode(vs[ind]);
+        else
+            return NULL;
+        ind++;
+        root->left = constructbt(vs,ind);
+        ind++;
+        root->right = constructbt(vs,ind);
+        return root;
+    }
+    void fun(TreeNode* root,string &s){
+        if(root==NULL){
+            s+="NULL ";
+            return;
+        }
+        s+=to_string(root->val)+" ";
+        fun(root->left,s);
+        fun(root->right,s);
+    }
+    string serialize(TreeNode* root) {
+        string s = "";
+        fun(root,s);
+        s.pop_back();
+        // cout<<s<<endl;
+        return s;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string s) {
+        string temp = "";
+        bool sign = false;
+        vector<int>v;
+        for(int i=0;i<s.size();i++){
+            // cout<<s[i]<<endl;
+            if(s[i]=='-')
+                temp+='-';
+            if(s[i]==' '){
+                if(temp.size()>0){
+                    v.push_back(stoi(temp));
+                }
+                temp = "";
+            }
+            else if(s[i]=='N'){
+                v.push_back(-10001);
+                i+=3;
+            }else if(s[i]>='0'&&s[i]<='9'){
+                temp+=s[i];
+            }
+        }
+        int ind=0;
+        return constructbt(v,ind);
+        return NULL;
+    }
+};
