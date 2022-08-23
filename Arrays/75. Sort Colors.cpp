@@ -1,29 +1,18 @@
+// dutchman flag algorithm
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        int z = 0;
-        int o = 0;
-        int t = 0;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i]==0) z++;
-            if(nums[i]==1) o++;
-            if(nums[i]==2) t++;
-        }
-        for(int i=0;i<nums.size();i++){
-            if(z>0)
-            {   
-                nums[i]=0;
-                z--;
-            }
-            else if(o>0)
-            {    
-                nums[i]=1;
-                o--;
-            }
-            else if(t>0)
-            {    
-                nums[i]=2;
-                t--;
+        int lo = 0;
+        int mid = 0;
+        int high = nums.size()-1;
+        while(mid<=high){
+            if(nums[mid]==0)
+                swap(nums[mid++],nums[lo++]);
+            else if(nums[mid]==1){
+                mid++;
+                continue;
+            }else if(nums[mid]==2){
+                swap(nums[mid],nums[high--]);
             }
         }
     }
