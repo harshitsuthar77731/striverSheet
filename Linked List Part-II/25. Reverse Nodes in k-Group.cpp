@@ -8,6 +8,76 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+// method 1 /// 
+
+class Solution {
+public:
+    ListNode* reverse(ListNode* head){
+        ListNode* temp = NULL;
+        ListNode* newnode = NULL;
+        while(head){
+            temp = head->next;
+            head->next = newnode;
+            newnode = head;
+            head = temp;
+        }
+        return newnode;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* temp = head;
+        ListNode* newhead = NULL;
+        ListNode* nextpointer = NULL;
+        while(true){
+            ListNode* temphead = temp;
+            ListNode* tempendNode = temp;
+            int t = k-1;
+            // cout<<t<<endl;
+            while(tempendNode&&t--){
+                tempendNode = tempendNode->next;
+            }
+            if(tempendNode)
+            {
+                temp = tempendNode->next;
+                tempendNode->next = NULL;
+                
+                ListNode* reversed = reverse(temphead);    
+                if(newhead==NULL){
+                    newhead = reversed;
+                    nextpointer = temphead;
+                }else{
+                    nextpointer->next = reversed;
+                    nextpointer = temphead;
+                }
+            }
+            else{
+                if(temphead)
+                    nextpointer->next = temphead;
+                break;
+            }
+        }
+        return newhead;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Solution {
 public:
     int len(ListNode* head){
